@@ -688,7 +688,7 @@ def delete_data():
                     passwd=passwd_db,
                 ); c = db.cursor()
 
-                del_db = "DROP DATABASE IF EXISTS Data_Kelas;"
+                del_db = f"DROP DATABASE IF EXISTS {nama_db};"
                 c.execute(del_db)
                 db.commit()
                 db.close()
