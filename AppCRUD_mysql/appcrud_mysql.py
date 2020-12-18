@@ -38,42 +38,50 @@ def database():
     cursor_2 = db.cursor()
 
     # Buat table kelas 11 untuk data dosen
-    kelas_11_dsn = """CREATE TABLE IF NOT EXISTS kelas_11_dsn (
+    kelas_1_dsn = """CREATE TABLE IF NOT EXISTS kelas_1_dsn (
         kode_mk VARCHAR(255),
         nama_mk VARCHAR(255),
+        kelas INT,
+        sks INT,
         nip_dosen BIGINT PRIMARY KEY,
         nama_dosen VARCHAR(255)
     )
     """
     # Buat table kelas 12 untuk data dosen
-    kelas_12_dsn = """CREATE TABLE IF NOT EXISTS kelas_12_dsn (
+    kelas_2_dsn = """CREATE TABLE IF NOT EXISTS kelas_2_dsn (
         kode_mk VARCHAR(255),
         nama_mk VARCHAR(255),
+        kelas INT,
+        sks INT,
         nip_dosen BIGINT PRIMARY KEY,
         nama_dosen VARCHAR(255)
     )
     """
 
     # Buat table kelas 11 untuk data mahasiswa
-    kelas_11_mhs = """CREATE TABLE IF NOT EXISTS kelas_11_mhs (
+    kelas_1_mhs = """CREATE TABLE IF NOT EXISTS kelas_1_mhs (
         kode_mk VARCHAR(255),
         nama_mk VARCHAR(255),
+        kelas INT,
+        sks INT,
         npm_mhs BIGINT PRIMARY KEY,
         nama_mhs VARCHAR(255)
     )
     """
     # Buat table kelas 12 untuk data mahasiswa
-    kelas_12_mhs = """CREATE TABLE IF NOT EXISTS kelas_12_mhs (
+    kelas_2_mhs = """CREATE TABLE IF NOT EXISTS kelas_2_mhs (
         kode_mk VARCHAR(255),
         nama_mk VARCHAR(255),
+        kelas INT,
+        sks INT,
         npm_mhs BIGINT PRIMARY KEY,
         nama_mhs VARCHAR(255)
     )
     """
 
     # Execute table
-    cursor_2.execute(kelas_11_dsn); cursor_2.execute(kelas_12_dsn)
-    cursor_2.execute(kelas_11_mhs); cursor_2.execute(kelas_12_mhs)
+    cursor_2.execute(kelas_1_dsn); cursor_2.execute(kelas_2_dsn)
+    cursor_2.execute(kelas_1_mhs); cursor_2.execute(kelas_2_mhs)
     # Commit
     db.commit()
     # tutup database
@@ -83,16 +91,16 @@ def tambah_data():
     try:
         cls_terminal()
         print("\nTambah Data Kelas")
-        print("1. Kelas 11\n2. Kelas 12\n3. Kembali")
+        print("1. Kelas 1\n2. Kelas 2\n3. Kembali")
         pilih = input(" Pilih kelas : ")
         if(pilih == '1'):
             cls_terminal()
-            print("\nTambah data kelas 11")
+            print("\nTambah data kelas 1")
             print("1. Tambah data dosen\n2. Tambah data mahasiswa\n3. Kembali")
             pilihan = input("   Pilihan : ")
 
             if(pilihan == '1'):
-                print("\nTambah Data Dosen Kelas 11")
+                print("\nTambah Data Dosen Kelas 1")
                 # Koneksi db ke xampp
                 db = mysql.connect(
                     host=host_db,
@@ -104,12 +112,14 @@ def tambah_data():
 
                 kode_mk = str(input("Masukan Kode MK\t\t: "))
                 nama_mk = str(input("Masukan Nama MK\t\t: "))
+                kls_mk = int(input("Masukan Kelas MK\t: "))
+                sks_mk = int(input("Masukan SKS MK\t\t: "))
                 nama_dosen = str(input("Masukan Nama Dosen\t: "))
                 nip_dosen = int(input("Masukan NIP Dosen\t: "))
 
                 # Input data ke database
-                sql_dsn1 = "INSERT INTO kelas_11_dsn (kode_mk, nama_mk, nip_dosen, nama_dosen) VALUES (%s, %s, %s, %s)"
-                val_dsn1 = (f"{kode_mk}", f"{nama_mk}", f"{nip_dosen}", f"{nama_dosen}")
+                sql_dsn1 = "INSERT INTO kelas_1_dsn (kode_mk, nama_mk, kelas, sks, nip_dosen, nama_dosen) VALUES (%s, %s, %s, %s, %s, %s)"
+                val_dsn1 = (f"{kode_mk}", f"{nama_mk}", f"{kls_mk}", f"{sks_mk}", f"{nip_dosen}", f"{nama_dosen}")
                 # execute data
                 c.execute(sql_dsn1, val_dsn1)
                 # commit
@@ -120,7 +130,7 @@ def tambah_data():
                 db.close()
 
             elif(pilihan == '2'):
-                print("\nTambah Data Mahasiswa Kelas 11")
+                print("\nTambah Data Mahasiswa Kelas 1")
                 # Koneksi db ke xampp
                 db = mysql.connect(
                     host=host_db,
@@ -132,12 +142,14 @@ def tambah_data():
 
                 kode_mk = str(input("Masukan Kode MK\t\t\t: "))
                 nama_mk = str(input("Masukan Nama MK\t\t\t: "))
+                kls_mk = int(input("Masukan Kelas MK\t\t: "))
+                sks_mk = int(input("Masukan SKS MK\t\t\t: "))
                 nama_mhs = str(input("Masukan Nama Mahasiswa\t\t: "))
                 npm_mhs = int(input("Masukan Nomor Induk Mahasiswa\t: "))
 
                 # Input data ke database
-                sql_mhs1 = "INSERT INTO kelas_11_mhs (kode_mk, nama_mk, npm_mhs, nama_mhs) VALUES (%s, %s, %s, %s)"
-                val_mhs1 = (f"{kode_mk}", f"{nama_mk}", f"{npm_mhs}", f"{nama_mhs}")
+                sql_mhs1 = "INSERT INTO kelas_1_mhs (kode_mk, nama_mk, kelas, sks, npm_mhs, nama_mhs) VALUES (%s, %s, %s, %s, %s, %s)"
+                val_mhs1 = (f"{kode_mk}", f"{nama_mk}", f"{kls_mk}", f"{sks_mk}", f"{npm_mhs}", f"{nama_mhs}")
                 # execute data
                 c.execute(sql_mhs1, val_mhs1)
                 # commit
@@ -158,12 +170,12 @@ def tambah_data():
 
         elif(pilih == '2'):
             cls_terminal()
-            print("Tambah data kelas 12")
+            print("Tambah data kelas 2")
             print("1. Tambah data dosen\n2. Tambah data mahasiswa\n3. Kembali")
             pilihan = input("   Pilihan : ")
 
             if(pilihan == '1'):
-                print("\nTambah Data Dosen Kelas 12")
+                print("\nTambah Data Dosen Kelas 2")
                 # Koneksi db ke xampp
                 db = mysql.connect(
                     host=host_db,
@@ -175,12 +187,14 @@ def tambah_data():
 
                 kode_mk = str(input("Masukan Kode MK\t\t: "))
                 nama_mk = str(input("Masukan Nama MK\t\t: "))
+                kls_mk = int(input("Masukan Kelas MK\t: "))
+                sks_mk = int(input("Masukan SKS MK\t\t: "))
                 nama_dosen = str(input("Masukan Nama Dosen\t: "))
                 nip_dosen = int(input("Masukan NIP Dosen\t: "))
 
                 # Input data ke database
-                sql_dsn2 = "INSERT INTO kelas_12_dsn (kode_mk, nama_mk, nip_dosen, nama_dosen) VALUES (%s, %s, %s, %s)"
-                val_dsn2 = (f"{kode_mk}", f"{nama_mk}", f"{nip_dosen}", f"{nama_dosen}")
+                sql_dsn2 = "INSERT INTO kelas_2_dsn (kode_mk, nama_mk, kelas, sks, nip_dosen, nama_dosen) VALUES (%s, %s, %s, %s, %s, %s)"
+                val_dsn2 = (f"{kode_mk}", f"{nama_mk}", f"{kls_mk}", f"{sks_mk}", f"{nip_dosen}", f"{nama_dosen}")
                 # execute data
                 c.execute(sql_dsn2, val_dsn2)
                 # commit
@@ -191,7 +205,7 @@ def tambah_data():
                 db.close()
 
             elif(pilihan == '2'):
-                print("\nTambah Data Mahasiswa Kelas 12")
+                print("\nTambah Data Mahasiswa Kelas 2")
                 # Koneksi db ke xampp
                 db = mysql.connect(
                     host=host_db,
@@ -203,12 +217,14 @@ def tambah_data():
 
                 kode_mk = str(input("Masukan Kode MK\t\t\t: "))
                 nama_mk = str(input("Masukan Nama MK\t\t\t: "))
+                kls_mk = int(input("Masukan Kelas MK\t\t: "))
+                sks_mk = int(input("Masukan SKS\t\t\t: "))
                 nama_mhs = str(input("Masukan Nama Mahasiswa\t\t: "))
                 npm_mhs = int(input("Masukan Nomor Induk Mahasiswa\t: "))
 
                 # Input data ke database
-                sql_mhs2 = "INSERT INTO kelas_12_mhs (kode_mk, nama_mk, npm_mhs, nama_mhs) VALUES (%s, %s, %s, %s)"
-                val_mhs2 = (f"{kode_mk}", f"{nama_mk}", f"{npm_mhs}", f"{nama_mhs}")
+                sql_mhs2 = "INSERT INTO kelas_2_mhs (kode_mk, nama_mk, kelas, sks, npm_mhs, nama_mhs) VALUES (%s, %s, %s, %s, %s, %s)"
+                val_mhs2 = (f"{kode_mk}", f"{nama_mk}", f"{kls_mk}", f"{sks_mk}", f"{npm_mhs}", f"{nama_mhs}")
                 # execute data
                 c.execute(sql_mhs2, val_mhs2)
                 # commit
@@ -239,12 +255,12 @@ def tampilkan_data():
     try:
         cls_terminal()
         print("\nTampilkan Data Kelas")
-        print("1. Kelas 11\n2. Kelas 12\n3. Kembali")
+        print("1. Kelas 1\n2. Kelas 2\n3. Kembali")
         pilih = int(input(" Pilihan : "))
 
         if(pilih == 1):
             cls_terminal()
-            print("\nTampilkan Data Kelas 11 ")
+            print("\nTampilkan Data Kelas 1 ")
             print('1. Dosen\n2. Mahasiswa\n3. Kembali')
             pilihan = int(input("   Pilihan : "))
 
@@ -260,13 +276,13 @@ def tampilkan_data():
                 cls_terminal()
                 print("\nData Dosen...")
                 # Tampilkan semua data table dosen
-                sql_dsn1 = "SELECT * FROM kelas_11_dsn"
+                sql_dsn1 = "SELECT * FROM kelas_1_dsn"
                 c.execute(sql_dsn1)
                 results1 = c.fetchall()
                 list_data1 = ""
 
                 for data in results1:
-                    list_data1 += f"\n\nNama MK\t\t: {data[1]} \nKode MK\t\t: {data[0]} \nNama Dosen\t: {data[3]} \nNIP Dosen\t: {data[2]}"
+                    list_data1 += f"\n\nKode MK\t\t: {data[0]} \nNama MK\t\t: {data[1]} \nKelas\t\t: {data[2]} \nSKS\t\t: {data[3]} \nNama Dosen\t: {data[5]} \nNIP Dosen\t: {data[4]}"
 
                 print(list_data1)
                 # Tutup database
@@ -284,13 +300,13 @@ def tampilkan_data():
                 cls_terminal()
                 print("\nData mahasiswa...")
                 # Tampilkan semua data table mhs
-                sql_mhs1 = "SELECT * FROM kelas_11_mhs"
+                sql_mhs1 = "SELECT * FROM kelas_1_mhs"
                 c.execute(sql_mhs1)
                 results2 = c.fetchall()
                 list_data2 = ""
 
                 for data in results2:
-                    list_data2 += f"\n\nNama MK\t\t: {data[1]} \nKode MK\t\t: {data[0]} \nNama Mahasiswa\t: {data[3]} \nNPM\t\t: {data[2]}"
+                    list_data2 += f"\n\nKode MK\t\t: {data[0]} \nNama MK\t\t: {data[1]} \nKelas\t\t: {data[2]} \nSKS\t\t: {data[3]} \nNama Mahasiswa\t: {data[5]} \nNPM\t\t: {data[4]}"
 
                 print(list_data2)
                 # Tutup database
@@ -306,7 +322,7 @@ def tampilkan_data():
 
         elif(pilih == 2):
             cls_terminal()
-            print("\nTampilkan Data Kelas 12 ")
+            print("\nTampilkan Data Kelas 2 ")
             print('1. Dosen\n2. Mahasiswa\n3. Kembali')
             pilihan = int(input("   Pilihan : "))
 
@@ -322,13 +338,13 @@ def tampilkan_data():
                 cls_terminal()
                 print("\nData Dosen...")
                 # Tampilkan semua data table dosen
-                sql_dsn2 = "SELECT * FROM kelas_12_dsn"
+                sql_dsn2 = "SELECT * FROM kelas_2_dsn"
                 c.execute(sql_dsn2)
                 results3 = c.fetchall()
                 list_data3 = ""
 
                 for data in results3:
-                    list_data3 += f"\n\nNama MK\t\t: {data[1]} \nKode MK\t\t: {data[0]} \nNama Dosen\t: {data[3]} \nNIP Dosen\t: {data[2]}"
+                    list_data3 += f"\n\nKode MK\t\t: {data[0]} \nNama MK\t\t: {data[1]} \nKelas\t\t: {data[2]} \nSKS\t\t: {data[3]} \nNama Dosen\t: {data[5]} \nNIP Dosen\t: {data[4]}"
 
                 print(list_data3)
                 # Tutup database
@@ -346,13 +362,13 @@ def tampilkan_data():
                 cls_terminal()
                 print("\nData mahasiswa...")
                 # Tampilkan semua data table mhs
-                sql_mhs2 = "SELECT * FROM kelas_12_mhs"
+                sql_mhs2 = "SELECT * FROM kelas_2_mhs"
                 c.execute(sql_mhs2)
                 results4 = c.fetchall()
                 list_data4 = ""
 
                 for data in results4:
-                    list_data4 += f"\n\nNama MK\t\t: {data[1]} \nKode MK\t\t: {data[0]} \nNama Mahasiswa\t: {data[3]} \nNPM\t\t: {data[2]}"
+                    list_data4 += f"\n\nKode MK\t\t: {data[0]} \nNama MK\t\t: {data[1]} \nKelas\t\t: {data[2]} \nSKS\t\t: {data[3]} \nNama Mahasiswa\t: {data[5]} \nNPM\t\t: {data[4]}"
 
                 print(list_data4)
                 # Tutup database
@@ -380,17 +396,17 @@ def update_data():
     try:
         cls_terminal()
         print("\nUpdate Data Kelas")
-        print("1. Kelas 11\n2. Kelas 12\n3. Kembali")
+        print("1. Kelas 1\n2. Kelas 2\n3. Kembali")
         pilih = input(" Pilih kelas : ")
 
         if (pilih == '1'):
             cls_terminal()
-            print("Update Data Kelas 11 ")
+            print("Update Data Kelas 1 ")
             print('1. Dosen\n2. Mahasiswa\n3. Kembali')
             pilihan = input("   Pilihan : ")
 
             if (pilihan == '1'):
-                print("\nUpdate Data Dosen Kelas 11")
+                print("\nUpdate Data Dosen Kelas 1")
                 # Koneksi db ke xampp
                 db = mysql.connect(
                     host=host_db,
@@ -402,12 +418,14 @@ def update_data():
 
                 kode_mk = str(input("Masukan Kode MK\t\t: "))
                 nama_mk = str(input("Masukan Nama MK\t\t: "))
+                kelas_mk = int(input("Masukan Kelas MK\t: "))
+                sks_mk = int(input("Masukan SKS MK\t\t: "))
                 nama_dosen = str(input("Masukan Nama Dosen\t: "))
                 nip_dosen = int(input("Masukan NIP Dosen\t: "))
 
                 # Update database
-                sql_dsn1 = "UPDATE kelas_11_dsn SET kode_mk=%s, nama_mk=%s, nama_dosen=%s Where nip_dosen=%s"
-                val_dsn1 = (f"{kode_mk}", f"{nama_mk}", f"{nama_dosen}", f"{nip_dosen}")
+                sql_dsn1 = "UPDATE kelas_1_dsn SET kode_mk=%s, nama_mk=%s, kelas=%s, sks=%s, nama_dosen=%s Where nip_dosen=%s"
+                val_dsn1 = (f"{kode_mk}", f"{nama_mk}", f"{kelas_mk}", f"{sks_mk}", f"{nama_dosen}", f"{nip_dosen}")
 
                 # Execute data
                 c.execute(sql_dsn1, val_dsn1)
@@ -417,7 +435,7 @@ def update_data():
                 print(f"{c.rowcount} data diupdate")
 
             elif (pilihan == '2'):
-                print("\nUpdate Data Mahasiswa Kelas 11")
+                print("\nUpdate Data Mahasiswa Kelas 1")
                 # Koneksi db ke xampp
                 db = mysql.connect(
                     host=host_db,
@@ -428,13 +446,15 @@ def update_data():
                 c = db.cursor()
 
                 kode_mk = str(input("Masukan Kode MK\t\t\t: "))
-                nama_mk = str(input("Masukan Nama MK\t\t\t:"))
+                nama_mk = str(input("Masukan Nama MK\t\t\t: "))
+                kelas_mk = int(input("Masukan Kelas MK\t\t: "))
+                sks_mk = int(input("Masukan SKS MK\t\t\t: "))
                 nama_mhs = str(input("Masukan Nama Mahasiswa\t\t: "))
                 npm_mhs = int(input("Masukan Nomor Induk Mahasiswa\t: "))
 
                 # Update database
-                sql_mhs1 = "UPDATE kelas_11_mhs SET kode_mk=%s, nama_mk=%s, nama_mhs=%s Where npm_mhs=%s"
-                val_mhs1 = (f"{kode_mk}", f"{nama_mk}", f"{nama_mhs}", f"{npm_mhs}")
+                sql_mhs1 = "UPDATE kelas_1_mhs SET kode_mk=%s, nama_mk=%s, kelas=%s, sks=%s, nama_mhs=%s Where npm_mhs=%s"
+                val_mhs1 = (f"{kode_mk}", f"{nama_mk}", f"{kelas_mk}", f"{sks_mk}", f"{nama_mhs}", f"{npm_mhs}")
 
                 # Execute data
                 c.execute(sql_mhs1, val_mhs1)
@@ -454,12 +474,12 @@ def update_data():
 
         elif (pilih == '2'):
             cls_terminal()
-            print("Update Data Kelas 12 ")
+            print("Update Data Kelas 2 ")
             print('1. Dosen\n2. Mahasiswa\n3. Kembali')
             pilihan = input("   Pilihan : ")
 
             if (pilihan == '1'):
-                print("\nUpdate Data Dosen Kelas 12")
+                print("\nUpdate Data Dosen Kelas 2")
                 # Koneksi db ke xampp
                 db = mysql.connect(
                     host=host_db,
@@ -470,13 +490,15 @@ def update_data():
                 c = db.cursor()
 
                 kode_mk = str(input("Masukan Kode MK\t\t: "))
-                nama_mk = str(input("Masukan Nama MK\t\t:"))
+                nama_mk = str(input("Masukan Nama MK\t\t: "))
+                kelas_mk = int(input("Masukan Kelas MK\t: "))
+                sks_mk = int(input("Masukan SKS MK\t\t: "))
                 nama_dosen = str(input("Masukan Nama Dosen\t: "))
                 nip_dosen = int(input("Masukan NIP Dosen\t: "))
 
                 # Update database
-                sql_dsn2 = "UPDATE kelas_12_dsn SET kode_mk=%s, nama_mk=%s, nama_dosen=%s Where nip_dosen=%s"
-                val_dsn2 = (f"{kode_mk}", f"{nama_mk}", f"{nama_dosen}", f"{nip_dosen}")
+                sql_dsn2 = "UPDATE kelas_2_dsn SET kode_mk=%s, nama_mk=%s, kelas=%s, sks=%s, nama_dosen=%s Where nip_dosen=%s"
+                val_dsn2 = (f"{kode_mk}", f"{nama_mk}", f"{kelas_mk}", f"{sks_mk}", f"{nama_dosen}", f"{nip_dosen}")
 
                 # Execute data
                 c.execute(sql_dsn2, val_dsn2)
@@ -486,7 +508,7 @@ def update_data():
                 print(f"{c.rowcount} data diupdate")
 
             elif (pilihan == '2'):
-                print("\nUpdate Data Mahasiswa Kelas 12")
+                print("\nUpdate Data Mahasiswa Kelas 2")
                 # Koneksi db ke xampp
                 db = mysql.connect(
                     host=host_db,
@@ -497,13 +519,15 @@ def update_data():
                 c = db.cursor()
 
                 kode_mk = str(input("Masukan Kode MK\t\t\t: "))
-                nama_mk = str(input("Masukan Nama MK\t\t\t:"))
+                nama_mk = str(input("Masukan Nama MK\t\t\t: "))
+                kelas_mk = int(input("Masukan Kelas MK\t\t: "))
+                sks_mk = int(input("Masukan SKS MK\t\t\t: "))
                 nama_mhs = str(input("Masukan Nama Mahasiswa\t\t: "))
                 npm_mhs = int(input("Masukan Nomor Induk Mahasiswa\t: "))
 
                 # Update database
-                sql_mhs2 = "UPDATE kelas_12_mhs SET kode_mk=%s, nama_mk=%s, nama_mhs=%s Where npm_mhs=%s"
-                val_mhs2 = (f"{kode_mk}", f"{nama_mk}", f"{nama_mhs}", f"{npm_mhs}")
+                sql_mhs2 = "UPDATE kelas_2_mhs SET kode_mk=%s, nama_mk=%s, kelas=%s, sks=%s, nama_mhs=%s Where npm_mhs=%s"
+                val_mhs2 = (f"{kode_mk}", f"{nama_mk}", f"{kelas_mk}", f"{sks_mk}", f"{nama_mhs}", f"{npm_mhs}")
 
                 # Execute data
                 c.execute(sql_mhs2, val_mhs2)
@@ -534,17 +558,17 @@ def delete_data():
     try:
         cls_terminal()
         print("\nHapus Data Kelas")
-        print("1. Kelas 11\n2. Kelas 12\n3. Hapus Semua Databases\n4. Kembali")
+        print("1. Kelas 1\n2. Kelas 2\n3. Hapus Semua Databases\n4. Kembali")
         pilih = input(" Pilihan : ")
 
         if (pilih == '1'):
             cls_terminal()
-            print("Hapus Data kelas 11")
+            print("Hapus Data kelas 1")
             print("1. Data Dosen\n2. Data Mahasiswa\n3. Kembali")
             pilihan = input("   Pilihan : ")
 
             if (pilihan == '1'):
-                print("\nHapus Semua Data Dosen Kelas 11? ")
+                print("\nHapus Semua Data Dosen Kelas 1? ")
                 ask = str(input(" Y or N : "))
                 if (ask == 'Y' or ask == 'y'):
                     try:
@@ -556,11 +580,11 @@ def delete_data():
                             database=nama_db
                         ); c = db.cursor()
 
-                        del_table_dsn_11 = "DROP TABLE IF EXISTS kelas_11_dsn;"
+                        del_table_dsn_11 = "DROP TABLE IF EXISTS kelas_1_dsn;"
                         c.execute(del_table_dsn_11)
                         db.commit()
                         db.close()
-                        print("Semua Data Dosen Kelas 11 Telah Dihapus...")
+                        print("Semua Data Dosen Kelas 1 Telah Dihapus...")
                         database()
 
                     except:
@@ -572,7 +596,7 @@ def delete_data():
                     cls_terminal()
 
             elif (pilihan == '2'):
-                print("\nHapus Semua Data Mahasiswa Kelas 11? ")
+                print("\nHapus Semua Data Mahasiswa Kelas 1? ")
                 ask = str(input(" Y or N : "))
                 if(ask == 'Y' or ask == 'y'):
                     try:
@@ -584,11 +608,11 @@ def delete_data():
                             database=nama_db
                         ); c = db.cursor()
 
-                        del_table_mhs_11 = "DROP TABLE IF EXISTS kelas_11_mhs;"
+                        del_table_mhs_11 = "DROP TABLE IF EXISTS kelas_1_mhs;"
                         c.execute(del_table_mhs_11)
                         db.commit()
                         db.close()
-                        print("Semua Data Mahasiswa Kelas 11 Telah Dihapus...")
+                        print("Semua Data Mahasiswa Kelas 1 Telah Dihapus...")
                         database()
 
                     except:
@@ -608,12 +632,12 @@ def delete_data():
 
         elif (pilih == '2'):
             cls_terminal()
-            print("Hapus Data kelas 12")
+            print("Hapus Data kelas 2")
             print("1. Data Dosen\n2. Data Mahasiswa\n3. Kembali")
             pilihan = input("   Pilihan : ")
 
             if (pilihan == '1'):
-                print("\nHapus Semua Data Dosen Kelas 12? ")
+                print("\nHapus Semua Data Dosen Kelas 2? ")
                 ask = str(input(" Y or N : "))
                 if (ask == 'Y' or ask == 'y'):
                     try:
@@ -625,11 +649,11 @@ def delete_data():
                             database=nama_db
                         ); c = db.cursor()
 
-                        del_table_dsn_11 = "DROP TABLE IF EXISTS kelas_12_dsn;"
+                        del_table_dsn_11 = "DROP TABLE IF EXISTS kelas_2_dsn;"
                         c.execute(del_table_dsn_11)
                         db.commit()
                         db.close()
-                        print("Semua Data Dosen Kelas 12 Telah Dihapus...")
+                        print("Semua Data Dosen Kelas 2 Telah Dihapus...")
                         database()
 
                     except:
@@ -640,7 +664,7 @@ def delete_data():
                     cls_terminal()
 
             elif (pilihan == '2'):
-                print("\nHapus Semua Data Mahasiswa Kelas 12? ")
+                print("\nHapus Semua Data Mahasiswa Kelas 2? ")
                 ask = str(input(" Y or N : "))
                 if(ask == 'Y' or ask == 'y'):
                     try:
@@ -652,11 +676,11 @@ def delete_data():
                             database=nama_db
                         ); c = db.cursor()
 
-                        del_table_mhs_11 = "DROP TABLE IF EXISTS kelas_12_mhs;"
+                        del_table_mhs_11 = "DROP TABLE IF EXISTS kelas_2_mhs;"
                         c.execute(del_table_mhs_11)
                         db.commit()
                         db.close()
-                        print("Semua Data Mahasiswa Kelas 12 Telah Dihapus...")
+                        print("Semua Data Mahasiswa Kelas 2 Telah Dihapus...")
                         database()
 
                     except:
