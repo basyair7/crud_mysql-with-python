@@ -2,8 +2,8 @@ import mysql.connector as mysql
 
 #******** Setting akun Database ********#
 host_db = 'localhost'
-user_db = 'basyair7'
-passwd_db = '0712'
+user_db = ''
+passwd_db = ''
 
 #**************************************#
 
